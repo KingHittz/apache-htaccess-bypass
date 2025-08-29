@@ -6,7 +6,7 @@
 [![RCE](https://img.shields.io/badge/RCE-Confirmed-brightgreen)](https://github.com/) 
 [![PHP](https://img.shields.io/badge/Language-PHP-purple)](https://www.php.net/) 
 [![Apache](https://img.shields.io/badge/Server-Apache-orange)](https://httpd.apache.org/) 
-[![File Upload](https://img.shields.io/badge/Feature-File_Upload-yellow)](https://github.com/)  
+[![File Upload](https://img.shields.io/badge/Feature-File_Upload-yellow)](https://github.com/)
 
 This project documents a successful file upload exploitation against a simulated vulnerable web application.  
 Weak file upload validation was bypassed to achieve **remote code execution (RCE)** using an `.htaccess` trick on an Apache server.
