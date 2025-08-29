@@ -64,6 +64,12 @@ AddType application/x-httpd-php .png
 
 ---
 
+##Proof of Exploit
+
+<img width="958" height="1079" alt="image" src="https://github.com/user-attachments/assets/f7ed6996-fab0-4623-befd-5568eaeee4a0" />
+
+---
+
 ## Proof of Concept
 
 **exploit.php**:
