@@ -96,5 +96,3 @@ http://target.com/uploads/shell.php?cmd=whoami
 * [OWASP File Upload Cheat Sheet](https://owasp.org/www-community/vulnerabilities/Unrestricted_File_Upload)
 
 ```
-
----
