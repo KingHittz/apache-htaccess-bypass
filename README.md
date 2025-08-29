@@ -146,5 +146,3 @@ Preventing such attacks requires **defense-in-depth**: secure configs, strict va
 ```
 
 ---
-
-```
