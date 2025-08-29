@@ -99,5 +99,3 @@ docker run -d -p 8080:80 -v /path/to/uploads:/var/www/html php:8.2-apache
 * [PHP Official Documentation](https://www.php.net/)
 * [Apache HTTP Server Documentation](https://httpd.apache.org/)
 * [OWASP File Upload Cheat Sheet](https://owasp.org/www-community/vulnerabilities/Unrestricted_File_Upload)
-
-```
