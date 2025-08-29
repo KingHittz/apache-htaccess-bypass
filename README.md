@@ -15,6 +15,7 @@
 2. [Objective](#objective)  
 3. [Vulnerability Description](#vulnerability-description)  
 4. [Exploitation Steps](#exploitation-steps)  
+5. [Proof of Exploit](#proof-of-exploit)
 5. [Proof of Concept](#proof-of-concept)  
 6. [Mitigation](#mitigation)  
 7. [References](#references)  
