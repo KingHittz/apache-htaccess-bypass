@@ -7,19 +7,19 @@ The lab demonstrates how weak file upload validation can be bypassed to achieve 
 ---
 
 ## 📑 Table of Contents
-1. [Lab Overview](#-lab-overview)  
-2. [Exploitation Walkthrough](#-exploitation-walkthrough)  
-   - [Normal File Upload](#1-normal-file-upload)  
-   - [Crafting Malicious Payload](#2-crafting-malicious-payload)  
-   - [Identifying Server](#3-identifying-server)  
-   - [Uploading `.htaccess`](#4-uploading-htaccess)  
-   - [Uploading Exploit with New Extension](#5-uploading-exploit-with-new-extension)  
-   - [Triggering RCE](#6-triggering-rce)  
-3. [Security Impact](#-security-impact)  
-4. [Recommended Mitigations](#-recommended-mitigations)  
-5. [Proof of Exploit](#-proof-of-exploit)  
-6. [Secret Obtained](#-secret-obtained)  
-7. [Takeaways](#-takeaways)  
+1. [Lab Overview](#lab-overview)  
+2. [Exploitation Walkthrough](#exploitation-walkthrough)  
+   - [Normal File Upload](#normal-file-upload)  
+   - [Crafting Malicious Payload](#crafting-malicious-payload)  
+   - [Identifying Server](#identifying-server)  
+   - [Uploading .htaccess](#uploading-htaccess)  
+   - [Uploading Exploit with New Extension](#uploading-exploit-with-new-extension)  
+   - [Triggering RCE](#triggering-rce)  
+3. [Security Impact](#security-impact)  
+4. [Recommended Mitigations](#recommended-mitigations)  
+5. [Proof of Exploit](#proof-of-exploit)  
+6. [Secret Obtained](#secret-obtained)  
+7. [Takeaways](#takeaways)  
 
 ---
 
