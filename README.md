@@ -37,7 +37,9 @@ This lab demonstrates a **file upload vulnerability** in a simulated web applica
 
 ## Vulnerability Description
 
-File upload functionality is often a critical entry point for attackers. In this lab:
+File upload functionality is often a critical entry point for attackers. 
+
+In this lab:
 
 - The web application **fails to properly validate file types**  
 - Apache `.htaccess` files are **not restricted**, allowing uploaded files to execute as PHP scripts  
