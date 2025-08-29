@@ -4,7 +4,7 @@
 This project documents a successful file upload exploitation against a simulated vulnerable web application.  
 The lab demonstrates how weak file upload validation can be bypassed to achieve **remote code execution (RCE)** using an `.htaccess` trick on an Apache server.
 
----
+
 
 ## 📑 Table of Contents
 1. [Lab Overview](#lab-overview)  
@@ -21,7 +21,7 @@ The lab demonstrates how weak file upload validation can be bypassed to achieve 
 6. [Secret Obtained](#secret-obtained)  
 7. [Takeaways](#takeaways)  
 
----
+
 
 ## 📖 Lab Overview
 - **Target:** Web application with avatar upload functionality  
